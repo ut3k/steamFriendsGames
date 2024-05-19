@@ -2,41 +2,35 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/gocolly/colly"
 )
 
 func main() {
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+
+	collector := colly.NewCollector()
+
+	collector.OnHTML("file", func(e *colly.HTMLElement) {
+		Title := e.DOM.HasClass("_22awlPiAoaZjQMqxJhp-KP")
+		fmt.Println("--------------------------------------")
+		fmt.Println("Tytuł:", Title)
+		fmt.Println("--------------------------------------")
+	})
+
+	files, err := os.ReadDir("./data")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	t := &http.Transport{}
-	t.RegisterProtocol("file", http.NewFileTransport(http.Dir("/")))
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
 
-	c := colly.NewCollector()
-	c.WithTransport(t)
-
-	pages := []string{}
-
-	c.OnHTML("h1", func(h *colly.HTMLElement) {
-		pages = append(pages, h.Text)
-	})
-
-	c.OnHTML("a", func(h *colly.HTMLElement) {
-		c.Visit("File://" + dir + "/html" + h.Attr("href"))
-	})
-
-	fmt.Println("file://" + dir + "/html/index.html")
-	c.Visit("file://" + dir + "/html/index.html")
-	c.Wait()
-
-	for i, p := range pages {
-		fmt.Printf("%d : %s\n", i, p)
+		filePath := "./data" + file.Name()
+		err := collector.OnFile(filePath, e.Find)
 	}
 
 }

@@ -2,35 +2,36 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gocolly/colly"
 )
 
 func main() {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	}
 
-	collector := colly.NewCollector()
+	t := &http.Transport{}
+	t.RegisterProtocol("file", http.NewFileTransport(http.Dir("/")))
 
-	collector.OnHTML("file", func(e *colly.HTMLElement) {
-		Title := e.DOM.HasClass("_22awlPiAoaZjQMqxJhp-KP")
+	c := colly.NewCollector()
+	c.WithTransport(t)
+
+	// pages := []string{}
+
+	c.Visit("file://" + dir + "/data/view-source_https___steamcommunity.com_id_aquiceeo_games__tab=all.html")
+	println("file://" + dir + "/data/view-source_https___steamcommunity.com_id_aquiceeo_games__tab=all.html")
+	c.Wait()
+
+	c.OnHTML("div", func(e *colly.HTMLElement) {
+		Title := e.Text
 		fmt.Println("--------------------------------------")
 		fmt.Println("Tytuł:", Title)
 		fmt.Println("--------------------------------------")
 	})
-
-	files, err := os.ReadDir("./data")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			continue
-		}
-
-		filePath := "./data" + file.Name()
-		err := collector.OnFile(filePath, e.Find)
-	}
 
 }

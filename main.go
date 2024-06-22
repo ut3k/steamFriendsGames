@@ -40,12 +40,13 @@ func main() {
 
 	c.OnHTML("._22awlPiAoaZjQMqxJhp-KP", func(e *colly.HTMLElement) {
 		Title := e.Text
-		GameID := e.Attr("href")
-		GameID = strings.ReplaceAll(GameID, "https://store.steampowered.com/app/", "")
+		GameURL := e.Attr("href")
+		GameID := strings.ReplaceAll(GameURL, "https://store.steampowered.com/app/", "")
 		GameID = strings.TrimSpace(GameID)
 		fmt.Println("--------------------------------------")
 		fmt.Println("Tytuł:", Title)
 		fmt.Println("ID gry:", GameID)
+		fmt.Println("GameURL:", GameURL)
 		fmt.Println("--------------------------------------")
 	})
 

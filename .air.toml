@@ -1,5 +1,5 @@
 root = "."
-testdata_dir = "testdata"
+testdata_dir = "data"
 # tmp_dir = "tmp"
 
 [build]
@@ -21,7 +21,7 @@ testdata_dir = "testdata"
   poll = false
   poll_interval = 0
   post_cmd = []
-  pre_cmd = ["rm -f data.db"]
+  pre_cmd = ["rm -fv data.db", "rm -fv main"]
   rerun = false
   rerun_delay = 500
   send_interrupt = false

@@ -42,6 +42,7 @@ func ScrapeLocalData() {
 		fmt.Println("=================")
 		fmt.Println("Gracz:", UserName)
 		fmt.Println("=================")
+
 		user := models.User{
 			Name: UserName,
 		}
@@ -62,6 +63,18 @@ func ScrapeLocalData() {
 		fmt.Println("ID gry:", GameID)
 		fmt.Println("GameURL:", GameURL)
 		fmt.Println("--------------------------------------")
+
+		game := models.Game{
+			Title:   Title,
+			GameID:  GameID,
+			GameURL: GameURL,
+		}
+
+		err := DB.Create(&game).Error
+		if err != nil {
+			println("not able to write User name to DataBase")
+		}
+
 	})
 
 	FileList, err := os.ReadDir("./data")

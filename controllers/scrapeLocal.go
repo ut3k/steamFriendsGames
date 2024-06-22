@@ -6,12 +6,23 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"steamFriendsGames/models"
 	"strings"
 
 	"github.com/gocolly/colly"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func ScrapeLocalData() {
+	// DateBase setup
+	var err error
+	var DB *gorm.DB
+	DB, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
+	if err != nil {
+		fmt.Println("scraper faild to connect to data.db")
+	}
+	// location of Steam Downloaded DATA
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
 		panic(err)
@@ -31,6 +42,13 @@ func ScrapeLocalData() {
 		fmt.Println("=================")
 		fmt.Println("Gracz:", UserName)
 		fmt.Println("=================")
+		user := models.User{
+			Name: UserName,
+		}
+		err := DB.Create(&user).Error
+		if err != nil {
+			println("not able to write User name to DataBase")
+		}
 
 	})
 

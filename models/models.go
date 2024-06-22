@@ -6,14 +6,14 @@ type Game struct {
 	gorm.Model
 	ID            uint   `gorm:"primary_key"`
 	Title         string `gorm:"column:name"`
-	GameID        int32
+	GameID        int32  `gorm:"uniqe"`
 	GameURL       string
 	IsCooperative bool
 }
 
 type User struct {
 	gorm.Model
-	ID     uint   `gorm:"primary_key"`
-	Name   string `gorm:"column:name"`
-	UserID string
+	ID   uint   `gorm:"primary_key"`
+	Name string `gorm:"column:name"`
+	// UserID string `gorm:"uniqe"`
 }

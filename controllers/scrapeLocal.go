@@ -34,6 +34,8 @@ func ScrapeLocalData() {
 	c := colly.NewCollector()
 	c.WithTransport(t)
 
+	var ActualUser string
+
 	c.OnHTML("a.persona_name_text_content", func(h *colly.HTMLElement) {
 		var UserName string
 		UserName = h.Text
@@ -50,6 +52,8 @@ func ScrapeLocalData() {
 		if err != nil {
 			println("not able to write User name to DataBase")
 		}
+
+		ActualUser = UserName
 
 	})
 
@@ -74,6 +78,8 @@ func ScrapeLocalData() {
 		if err != nil {
 			println("not able to write User name to DataBase")
 		}
+
+		// DB.Model(models.User).Preload("Games").
 
 	})
 

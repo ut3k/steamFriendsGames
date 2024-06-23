@@ -8,12 +8,13 @@ type Game struct {
 	Title         string `gorm:"column:name"`
 	GameID        string `gorm:"unique"`
 	GameURL       string
+	Users         []User `gorm:"many2many:user_games"`
 	IsCooperative bool
 }
 
 type User struct {
 	gorm.Model
-	ID   uint   `gorm:"primary_key"`
-	Name string `gorm:"column:name"`
-	// UserID string `gorm:"unique"`
+	ID    uint   `gorm:"primary_key"`
+	Name  string `gorm:"column:name"`
+	Games []Game `gorm:"many2many:user_games"`
 }

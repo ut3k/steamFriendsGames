@@ -81,8 +81,11 @@ func ScrapeLocalData() {
 			GameID:  GameID,
 			GameURL: GameURL,
 		}
+		DB.Create(&game)
 
-		DB.Model(&user).Association("Games").Append(&game)
+		var actualGame models.Game
+		gameScaned := DB.Where("GameID = ?", GameID).First(&actualGame)
+		DB.Model(&user).Association("Games").Append(&gameScaned)
 
 	})
 

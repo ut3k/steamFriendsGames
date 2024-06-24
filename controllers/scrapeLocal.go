@@ -81,11 +81,18 @@ func ScrapeLocalData() {
 			GameID:  GameID,
 			GameURL: GameURL,
 		}
-		DB.Create(&game)
 
-		var actualGame models.Game
-		gameScaned := DB.Where("GameID = ?", GameID).First(&actualGame)
-		DB.Model(&user).Association("Games").Append(&gameScaned)
+		err := DB.Create(&game).Error
+		if err == nil {
+			DB.Model(&user).Association("Games").Append(&game)
+			fmt.Println("GRA się zapisalała w bazie")
+		} else {
+			var actualGame models.Game
+			gameScaned := DB.Where("game_id = ?", GameID).First(&actualGame)
+			DB.Model(&user).Association("Games").Append(&gameScaned)
+			fmt.Println("Gry była już w bazie więc ją tylko połaczyłem z graczem")
+
+		}
 
 	})
 

@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"steamFriendsGames/models"
 	"strings"
+
+	"steamFriendsGames/models"
 
 	"github.com/gocolly/colly"
 	"gorm.io/driver/sqlite"
@@ -66,7 +67,11 @@ func ScrapeLocalData() {
 		fmt.Println("Tytuł:", Title)
 		fmt.Println("ID gry:", GameID)
 		fmt.Println("GameURL:", GameURL)
+		fmt.Println("USER:", ActualUser)
 		fmt.Println("--------------------------------------")
+
+		var user models.User
+		DB.Where("name = ?", ActualUser).First(&user)
 
 		game := models.Game{
 			Title:   Title,
@@ -79,7 +84,9 @@ func ScrapeLocalData() {
 			println("not able to write User name to DataBase")
 		}
 
-		// DB.Model(models.User).Preload("Games").
+		if user.ID == 0 {
+			fmt.Println(" there is no such user as:", ActualUser, "in data base")
+		}
 
 	})
 

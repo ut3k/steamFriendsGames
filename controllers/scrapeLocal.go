@@ -43,7 +43,10 @@ func ScrapeLocalData() {
 		UserName = strings.TrimSpace(UserName)
 
 		fmt.Println("=================")
+		fmt.Println("=================")
 		fmt.Println("Gracz:", UserName)
+		fmt.Println("=================")
+		fmt.Println("=================")
 		fmt.Println("=================")
 
 		user := models.User{
@@ -79,14 +82,7 @@ func ScrapeLocalData() {
 			GameURL: GameURL,
 		}
 
-		err := DB.Create(&game).Error
-		if err != nil {
-			println("not able to write User name to DataBase")
-		}
-
-		if user.ID == 0 {
-			fmt.Println(" there is no such user as:", ActualUser, "in data base")
-		}
+		DB.Model(&user).Association("Games").Append(&game)
 
 	})
 

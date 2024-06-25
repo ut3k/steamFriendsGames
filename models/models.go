@@ -9,6 +9,7 @@ type Game struct {
 	GameID        string `gorm:"unique"`
 	GameURL       string
 	Users         []User `gorm:"many2many:user_games"`
+	MainIMG       string
 	IsCooperative bool
 }
 

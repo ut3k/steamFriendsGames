@@ -13,13 +13,16 @@ import (
 	"github.com/gocolly/colly"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func ScrapeLocalData() {
 	// DateBase setup
 	var err error
 	var DB *gorm.DB
-	DB, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
+	DB, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		fmt.Println("scraper faild to connect to data.db")
 	}
@@ -42,12 +45,7 @@ func ScrapeLocalData() {
 		UserName = h.Text
 		UserName = strings.TrimSpace(UserName)
 
-		fmt.Println("=================")
-		fmt.Println("=================")
-		fmt.Println("Gracz:", UserName)
-		fmt.Println("=================")
-		fmt.Println("=================")
-		fmt.Println("=================")
+		fmt.Println("Checkin local data file of:", UserName)
 
 		user := models.User{
 			Name: UserName,
@@ -66,12 +64,6 @@ func ScrapeLocalData() {
 		GameURL := e.Attr("href")
 		GameID := strings.ReplaceAll(GameURL, "https://store.steampowered.com/app/", "")
 		GameID = strings.TrimSpace(GameID)
-		fmt.Println("--------------------------------------")
-		fmt.Println("Tytuł:", Title)
-		fmt.Println("ID gry:", GameID)
-		fmt.Println("GameURL:", GameURL)
-		fmt.Println("USER:", ActualUser)
-		fmt.Println("--------------------------------------")
 
 		var user models.User
 		DB.Where("name = ?", ActualUser).First(&user)
@@ -85,12 +77,12 @@ func ScrapeLocalData() {
 		err := DB.Create(&game).Error
 		if err == nil {
 			DB.Model(&user).Association("Games").Append(&game)
-			fmt.Println("GRA się zapisalała w bazie")
+			fmt.Println(game.Title, "- save in database")
 		} else {
 			var actualGame models.Game
 			gameScaned := DB.Where("game_id = ?", GameID).First(&actualGame)
 			DB.Model(&user).Association("Games").Append(&gameScaned)
-			fmt.Println("Gry była już w bazie więc ją tylko połaczyłem z graczem")
+			fmt.Println(game.Title, "- Game already in database")
 
 		}
 
@@ -104,7 +96,6 @@ func ScrapeLocalData() {
 		// fmt.Println(file.Name())
 
 		c.Visit("file://" + dir + "/data/" + file.Name())
-		fmt.Println("file://" + dir + "/data/" + file.Name())
 	}
 
 }

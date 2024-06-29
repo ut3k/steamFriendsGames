@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"os"
-	"path/filepath"
-	"strings"
+	// "log"
+	// "net/http"
+	// "os"
+	// "path/filepath"
+	// "strings"
 
-	"steamFriendsGames/models"
+	// "steamFriendsGames/models"
 
 	"github.com/gocolly/colly"
 	"gorm.io/driver/sqlite"
@@ -24,5 +24,5 @@ func CheckIfGameIsCoop() {
 	}
 
 	c := colly.NewCollector()
-	c.OnHTML("")
+	// c.OnHTML("")
 }

@@ -23,6 +23,7 @@ func CheckIfGameIsCoop() {
 		fmt.Println("Function CheckIfGameIsCoop can not connect to data.db")
 	}
 
+<<<<<<< HEAD
 	var games []models.Game
 	err = DB.Preload("usergames").Where("user_id > ?", 1).Find(&games).Error
 	if err != nil {
@@ -30,4 +31,10 @@ func CheckIfGameIsCoop() {
 	} else {
 		fmt.Println(err)
 	}
+
+	// c := colly.NewCollector()
+=======
+	c := colly.NewCollector()
+>>>>>>> origin/dataFIX
+	// c.OnHTML("")
 }

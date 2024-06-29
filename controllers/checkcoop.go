@@ -2,15 +2,15 @@ package controllers
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"os"
-	"path/filepath"
-	"strings"
+	// "log"
+	// "net/http"
+	// "os"
+	// "path/filepath"
+	// "strings"
 
 	"steamFriendsGames/models"
 
-	"github.com/gocolly/colly"
+	// "github.com/gocolly/colly"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -23,6 +23,14 @@ func CheckIfGameIsCoop() {
 		fmt.Println("Function CheckIfGameIsCoop can not connect to data.db")
 	}
 
-	c := colly.NewCollector()
-	c.OnHTML("")
+	var games []models.Game
+	err = DB.Preload("usergames").Where("user_id > ?", 1).Find(&games).Error
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println(err)
+	}
+
+	// c := colly.NewCollector()
+	// c.OnHTML("")
 }

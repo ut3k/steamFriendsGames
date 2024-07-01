@@ -9,6 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var MultiUserGameList []int64
+
 func CheckIfGameHasManyUsers() {
 	DB, err := gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
 	if err != nil {
@@ -26,7 +28,10 @@ func CheckIfGameHasManyUsers() {
 	`).Scan(&games)
 
 	for _, game := range games {
-		println(game.Title)
+		fmt.Println(game.Title)
+		MultiUserGameList = append(MultiUserGameList, int64(game.ID))
+
 	}
+	fmt.Println(MultiUserGameList)
 
 }

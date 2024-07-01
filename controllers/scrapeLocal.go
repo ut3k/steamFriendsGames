@@ -56,34 +56,38 @@ func ScrapeLocalData() {
 		}
 
 		ActualUser = UserName
+		println(ActualUser)
 
 	})
 
 	c.OnHTML("._22awlPiAoaZjQMqxJhp-KP", func(e *colly.HTMLElement) {
 		Title := e.Text
 		GameURL := e.Attr("href")
-		GameID := strings.ReplaceAll(GameURL, "https://store.steampowered.com/app/", "")
-		GameID = strings.TrimSpace(GameID)
+		GameCODE := strings.ReplaceAll(GameURL, "https://store.steampowered.com/app/", "")
+		GameCODE = strings.TrimSpace(GameCODE)
 
 		var user models.User
 		DB.Where("name = ?", ActualUser).First(&user)
 
 		game := models.Game{
-			Title:   Title,
-			GameID:  GameID,
-			GameURL: GameURL,
+			Title:    Title,
+			GameCODE: GameCODE,
+			GameURL:  GameURL,
 		}
 
 		err := DB.Create(&game).Error
 		if err == nil {
 			DB.Model(&user).Association("Games").Append(&game)
 			fmt.Println(game.Title, "- save in database")
+			fmt.Println(ActualUser)
 		} else {
-			var actualGame models.Game
-			gameScaned := DB.Where("game_id = ?", GameID).First(&actualGame)
+			var gameScaned models.Game
+			DB.Where("game_code = ?", GameCODE).First(&gameScaned)
 			DB.Model(&user).Association("Games").Append(&gameScaned)
-			fmt.Println(game.Title, "- Game already in database")
-
+			fmt.Println("===========")
+			fmt.Println("game scanned:", gameScaned)
+			fmt.Println("Actual user:", ActualUser)
+			fmt.Println("GameCODE user:", GameCODE)
 		}
 
 	})

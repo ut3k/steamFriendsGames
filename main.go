@@ -16,5 +16,5 @@ func init() {
 func main() {
 	controllers.ScrapeLocalData()
 	controllers.CheckIfGameHasManyUsers()
-	// controllers.CheckIfGameIsCoop()
+	controllers.CheckIfGameIsCoop()
 }

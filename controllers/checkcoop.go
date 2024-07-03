@@ -24,23 +24,26 @@ func CheckIfGameIsCoop() {
 		result := DB.First(&game, id)
 		if result.Error != nil {
 			fmt.Println("Game not found in data base")
-		} else {
-			fmt.Println("==================================")
-			fmt.Println("Visiting : ", game.GameURL)
-			c.Visit(game.GameURL)
-			fmt.Println("==================================")
-			c.OnHTML("div.icon", func(h *colly.HTMLElement) {
-				attrData := h.ChildAttr("img.category_icon", "src")
-				wantedAttr := "https://store.akamai.steamstatic.com/public/images/v6/ico/ico_coop.png"
-				if attrData == wantedAttr {
-					fmt.Println("-----------------------")
-					fmt.Println(attrData)
-					fmt.Println("State of:", game.Title, "should be changed to COOP")
-					fmt.Println("-----------------------")
-				}
-			})
-
 		}
+		fmt.Println("==================================")
+		fmt.Println("Visiting : ", game.GameURL)
+		c.Visit(game.GameURL)
+		fmt.Println("==================================")
+
+		// for some reason this creates duplicates maybe due to double use of the same icon for diferent types of COOP
+		c.OnHTML("div.icon", func(h *colly.HTMLElement) {
+			attrData := h.ChildAttr("img.category_icon", "src")
+			wantedAttr := "https://store.akamai.steamstatic.com/public/images/v6/ico/ico_coop.png"
+			if attrData == wantedAttr {
+				fmt.Println("-----------------------")
+				fmt.Println(attrData)
+				fmt.Println("id GRY:", game.ID)
+				fmt.Println("CODE GRY:", game.GameCODE)
+				fmt.Println("State of:", game.Title, "should be changed to COOP")
+				fmt.Println("-----------------------")
+			}
+		})
+		c.Wait()
 
 	}
 	// var games []models.Game

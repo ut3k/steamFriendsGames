@@ -36,23 +36,18 @@ func CheckIfGameIsCoop() {
 			wantedAttr := "https://store.akamai.steamstatic.com/public/images/v6/ico/ico_coop.png"
 			if attrData == wantedAttr {
 				fmt.Println("-----------------------")
-				fmt.Println(attrData)
-				fmt.Println("id GRY:", game.ID)
-				fmt.Println("CODE GRY:", game.GameCODE)
-				fmt.Println("State of:", game.Title, "should be changed to COOP")
+				fmt.Println("Game:", game.Title, "- COOP")
 				fmt.Println("-----------------------")
+				game.IsCooperative = true
+				c.OnHTML("img.game_header_image_full", func(iurl *colly.HTMLElement) {
+					game.MainIMG = iurl.Attr("src")
+				})
+
+				DB.Save(&game)
+
 			}
 		})
-		c.Wait()
 
+		c.Wait()
 	}
-	// var games []models.Game
-	// err = DB.Preload("usergames").Where("user_id > ?", 1).Find(&games).Error
-	//
-	//	if err != nil {
-	//		panic(err)
-	//	} else {
-	//
-	//		fmt.Println(err)
-	//	}
 }

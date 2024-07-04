@@ -1,7 +1,8 @@
-package controllers
+package checkcoop
 
 import (
 	"fmt"
+	"steamFriendsGames/controllers"
 	"steamFriendsGames/models"
 
 	"github.com/gocolly/colly"
@@ -16,6 +17,7 @@ func CheckIfGameIsCoop() {
 	if err != nil {
 		fmt.Println("Function CheckIfGameIsCoop can NOT connect to data.db")
 	}
+	MultiUserGameList := controllers.MultiUserGameList
 
 	c := colly.NewCollector()
 
@@ -25,6 +27,7 @@ func CheckIfGameIsCoop() {
 		if result.Error != nil {
 			fmt.Println("Game not found in data base")
 		}
+		c.Wait()
 		fmt.Println("==================================")
 		fmt.Println("Visiting : ", game.GameURL)
 		fmt.Println(id)
@@ -51,6 +54,5 @@ func CheckIfGameIsCoop() {
 			}
 		})
 
-		c.Wait()
 	}
 }

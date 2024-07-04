@@ -4,6 +4,7 @@ import (
 	// "os"
 	// "path/filepath"
 
+	"steamFriendsGames/checkcoop"
 	"steamFriendsGames/controllers"
 	"steamFriendsGames/initialisers"
 )
@@ -16,5 +17,5 @@ func init() {
 func main() {
 	controllers.ScrapeLocalData()
 	controllers.CheckIfGameHasManyUsers()
-	controllers.CheckIfGameIsCoop()
+	checkcoop.CheckIfGameIsCoop()
 }

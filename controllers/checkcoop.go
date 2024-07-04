@@ -43,7 +43,8 @@ func CheckIfGameIsCoop() {
 					game.MainIMG = iurl.Attr("src")
 				})
 
-				DB.Save(&game)
+				DB.Save(&game.MainIMG)
+				DB.Save(&game.IsCooperative)
 
 			}
 		})

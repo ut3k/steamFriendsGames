@@ -1048,19 +1048,19 @@
     </section>
     <hr />
 
+    {{ range .}}
     <section>
       <div class="container">
         <div class="row is-center">
           <div class="col-4">
             <div class="card">
               <header>
-                <h4>Albion onLine</h4>
+                <h4>{{.Title}}</h4>
               </header>
-              <img src="data/" alt="" />
-              <p>Game descritpion</p>
+              <img src="{{.GameURL}}" alt="" />
               <footer class="is-right">
-                <a href="#!" target="_blank" class="button bg-dark text-light"
-                  >Visit game Steam Page</a
+                <a href="{{.GameURL}}" target="_blank" class="button bg-dark text-light"
+                >Visit {{.Title}} Steam Page</a
                 >
               </footer>
             </div>
@@ -1068,19 +1068,9 @@
           <div class="col-6">
             <div class="card">
               <div class="row">
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
-                <div class="col"><div class="card bg-light">Aquiceoo</div></div>
+                {{range .Users}}
+                <div class="col"><div class="card bg-light">{{.Name}}</div></div>
+                {{end}}
               </div>
             </div>
           </div>
@@ -1088,5 +1078,6 @@
         <hr />
       </div>
     </section>
+    {{end}}
   </body>
 </html>

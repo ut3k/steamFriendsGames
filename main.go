@@ -1,11 +1,12 @@
 package main
 
 import (
-	// "os"
 	// "path/filepath"
 
+	"os"
 	"steamFriendsGames/checkcoop"
 	"steamFriendsGames/controllers"
+	"steamFriendsGames/generators"
 	"steamFriendsGames/initialisers"
 )
 
@@ -18,4 +19,6 @@ func main() {
 	controllers.ScrapeLocalData()
 	controllers.CheckIfGameHasManyUsers()
 	checkcoop.CheckIfGameIsCoop()
+	generators.GenerateHTMLlist()
+	os.Exit(1)
 }

@@ -27,7 +27,6 @@ func CheckIfGameIsCoop() {
 		if result.Error != nil {
 			fmt.Println("Game not found in data base")
 		}
-		c.Wait()
 		fmt.Println("==================================")
 		fmt.Println("Visiting : ", game.GameURL)
 		fmt.Println(id)
@@ -54,5 +53,6 @@ func CheckIfGameIsCoop() {
 			}
 		})
 
+		c.Wait()
 	}
 }

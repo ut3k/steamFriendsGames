@@ -19,8 +19,11 @@ func GenerateHTMLlist() {
 		fmt.Println("Function CheckIfGameIsCoop can NOT connect to data.db")
 	}
 
-	var GameDATA models.Game
-	err = DB.Preload("Users").Where("is_cooperative = ?", true).Find(&GameDATA).Error
+	var GameDATA []models.Game
+
+	// SQL promt is incorrect,
+	err = DB.Preload("Users").Find(&GameDATA).Where("is_cooperative = ?", 1).Error
+	//returning wrong data
 	if err != nil {
 		fmt.Println("error fetching data from database:", err)
 		return
@@ -42,6 +45,6 @@ func GenerateHTMLlist() {
 		fmt.Println("error executing tempalte:", err)
 	}
 
-	fmt.Println(GameDATA.GameURL)
+	fmt.Println(GameDATA)
 
 }

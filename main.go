@@ -4,8 +4,8 @@ import (
 	// "path/filepath"
 
 	"os"
-	"steamFriendsGames/checkcoop"
-	"steamFriendsGames/controllers"
+	// "steamFriendsGames/checkcoop"
+	// "steamFriendsGames/controllers"
 	"steamFriendsGames/generators"
 	"steamFriendsGames/initialisers"
 )
@@ -16,9 +16,9 @@ func init() {
 }
 
 func main() {
-	controllers.ScrapeLocalData()
-	controllers.CheckIfGameHasManyUsers()
-	checkcoop.CheckIfGameIsCoop()
+	// controllers.ScrapeLocalData()
+	// controllers.CheckIfGameHasManyUsers()
+	// checkcoop.CheckIfGameIsCoop()
 	generators.GenerateHTMLlist()
 	os.Exit(1)
 }
